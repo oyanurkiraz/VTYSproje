@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VTYSprojeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DanismanTablosu">
+          <Key>
+            <PropertyRef Name="DanismanID" />
+          </Key>
+          <Property Name="DanismanID" Type="int" Nullable="false" />
+          <Property Name="İsimSoyisim" Type="nvarchar" MaxLength="100" />
+          <Property Name="Unvan" Type="nvarchar" MaxLength="50" />
+          <Property Name="Bolum" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DersSecimTablosu">
+          <Key>
+            <PropertyRef Name="DersSecimID" />
+          </Key>
+          <Property Name="DersSecimID" Type="int" Nullable="false" />
+          <Property Name="OgrenciID" Type="int" />
+          <Property Name="DersID" Type="int" />
+          <Property Name="SecmeTarihi" Type="datetime" />
+          <Property Name="OnaylandiMi" Type="bit" />
+        </EntityType>
+        <EntityType Name="DersTablosu">
+          <Key>
+            <PropertyRef Name="DersID" />
+          </Key>
+          <Property Name="DersID" Type="int" Nullable="false" />
+          <Property Name="DersKodu" Type="nvarchar" MaxLength="10" />
+          <Property Name="DersAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="ZorunluMu" Type="bit" />
+          <Property Name="DersKredi" Type="int" />
+          <Property Name="Bolum" Type="nvarchar" MaxLength="50" />
+          <Property Name="DanismanID" Type="int" />
+        </EntityType>
+        <EntityType Name="OgrenciTablosu">
+          <Key>
+            <PropertyRef Name="OgrenciID" />
+          </Key>
+          <Property Name="OgrenciID" Type="int" Nullable="false" />
+          <Property Name="İsim" Type="nvarchar" MaxLength="50" />
+          <Property Name="Soyisim" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="DanismanID" Type="int" />
+          <Property Name="KayitTarihi" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_DersSecimTablosu_DersTablosu">
+          <End Role="DersTablosu" Type="Self.DersTablosu" Multiplicity="0..1" />
+          <End Role="DersSecimTablosu" Type="Self.DersSecimTablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DersTablosu">
+              <PropertyRef Name="DersID" />
+            </Principal>
+            <Dependent Role="DersSecimTablosu">
+              <PropertyRef Name="DersID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DersSecimTablosu_OgrenciTablosu">
+          <End Role="OgrenciTablosu" Type="Self.OgrenciTablosu" Multiplicity="0..1" />
+          <End Role="DersSecimTablosu" Type="Self.DersSecimTablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OgrenciTablosu">
+              <PropertyRef Name="OgrenciID" />
+            </Principal>
+            <Dependent Role="DersSecimTablosu">
+              <PropertyRef Name="OgrenciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DersTablosu_DanismanTablosu">
+          <End Role="DanismanTablosu" Type="Self.DanismanTablosu" Multiplicity="0..1" />
+          <End Role="DersTablosu" Type="Self.DersTablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DanismanTablosu">
+              <PropertyRef Name="DanismanID" />
+            </Principal>
+            <Dependent Role="DersTablosu">
+              <PropertyRef Name="DanismanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VTYSprojeModelStoreContainer">
+          <EntitySet Name="DanismanTablosu" EntityType="Self.DanismanTablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DersSecimTablosu" EntityType="Self.DersSecimTablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DersTablosu" EntityType="Self.DersTablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OgrenciTablosu" EntityType="Self.OgrenciTablosu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DersSecimTablosu_DersTablosu" Association="Self.FK_DersSecimTablosu_DersTablosu">
+            <End Role="DersTablosu" EntitySet="DersTablosu" />
+            <End Role="DersSecimTablosu" EntitySet="DersSecimTablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DersSecimTablosu_OgrenciTablosu" Association="Self.FK_DersSecimTablosu_OgrenciTablosu">
+            <End Role="OgrenciTablosu" EntitySet="OgrenciTablosu" />
+            <End Role="DersSecimTablosu" EntitySet="DersSecimTablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DersTablosu_DanismanTablosu" Association="Self.FK_DersTablosu_DanismanTablosu">
+            <End Role="DanismanTablosu" EntitySet="DanismanTablosu" />
+            <End Role="DersTablosu" EntitySet="DersTablosu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VTYSprojeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DanismanTablosu">
+          <Key>
+            <PropertyRef Name="DanismanID" />
+          </Key>
+          <Property Name="DanismanID" Type="Int32" Nullable="false" />
+          <Property Name="İsimSoyisim" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Unvan" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Bolum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DersTablosu" Relationship="Self.FK_DersTablosu_DanismanTablosu" FromRole="DanismanTablosu" ToRole="DersTablosu" />
+        </EntityType>
+        <EntityType Name="DersSecimTablosu">
+          <Key>
+            <PropertyRef Name="DersSecimID" />
+          </Key>
+          <Property Name="DersSecimID" Type="Int32" Nullable="false" />
+          <Property Name="OgrenciID" Type="Int32" />
+          <Property Name="DersID" Type="Int32" />
+          <Property Name="SecmeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="OnaylandiMi" Type="Boolean" />
+          <NavigationProperty Name="DersTablosu" Relationship="Self.FK_DersSecimTablosu_DersTablosu" FromRole="DersSecimTablosu" ToRole="DersTablosu" />
+          <NavigationProperty Name="OgrenciTablosu" Relationship="Self.FK_DersSecimTablosu_OgrenciTablosu" FromRole="DersSecimTablosu" ToRole="OgrenciTablosu" />
+        </EntityType>
+        <EntityType Name="DersTablosu">
+          <Key>
+            <PropertyRef Name="DersID" />
+          </Key>
+          <Property Name="DersID" Type="Int32" Nullable="false" />
+          <Property Name="DersKodu" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DersAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ZorunluMu" Type="Boolean" />
+          <Property Name="DersKredi" Type="Int32" />
+          <Property Name="Bolum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DanismanID" Type="Int32" />
+          <NavigationProperty Name="DanismanTablosu" Relationship="Self.FK_DersTablosu_DanismanTablosu" FromRole="DersTablosu" ToRole="DanismanTablosu" />
+          <NavigationProperty Name="DersSecimTablosu" Relationship="Self.FK_DersSecimTablosu_DersTablosu" FromRole="DersTablosu" ToRole="DersSecimTablosu" />
+        </EntityType>
+        <EntityType Name="OgrenciTablosu">
+          <Key>
+            <PropertyRef Name="OgrenciID" />
+          </Key>
+          <Property Name="OgrenciID" Type="Int32" Nullable="false" />
+          <Property Name="İsim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyisim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DanismanID" Type="Int32" />
+          <Property Name="KayitTarihi" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DersSecimTablosu" Relationship="Self.FK_DersSecimTablosu_OgrenciTablosu" FromRole="OgrenciTablosu" ToRole="DersSecimTablosu" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_DersTablosu_DanismanTablosu">
+          <End Role="DanismanTablosu" Type="Self.DanismanTablosu" Multiplicity="0..1" />
+          <End Role="DersTablosu" Type="Self.DersTablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DanismanTablosu">
+              <PropertyRef Name="DanismanID" />
+            </Principal>
+            <Dependent Role="DersTablosu">
+              <PropertyRef Name="DanismanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DersSecimTablosu_DersTablosu">
+          <End Role="DersTablosu" Type="Self.DersTablosu" Multiplicity="0..1" />
+          <End Role="DersSecimTablosu" Type="Self.DersSecimTablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DersTablosu">
+              <PropertyRef Name="DersID" />
+            </Principal>
+            <Dependent Role="DersSecimTablosu">
+              <PropertyRef Name="DersID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DersSecimTablosu_OgrenciTablosu">
+          <End Role="OgrenciTablosu" Type="Self.OgrenciTablosu" Multiplicity="0..1" />
+          <End Role="DersSecimTablosu" Type="Self.DersSecimTablosu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OgrenciTablosu">
+              <PropertyRef Name="OgrenciID" />
+            </Principal>
+            <Dependent Role="DersSecimTablosu">
+              <PropertyRef Name="OgrenciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="VTYSprojeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DanismanTablosu" EntityType="Self.DanismanTablosu" />
+          <EntitySet Name="DersSecimTablosu" EntityType="Self.DersSecimTablosu" />
+          <EntitySet Name="DersTablosu" EntityType="Self.DersTablosu" />
+          <EntitySet Name="OgrenciTablosu" EntityType="Self.OgrenciTablosu" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_DersTablosu_DanismanTablosu" Association="Self.FK_DersTablosu_DanismanTablosu">
+            <End Role="DanismanTablosu" EntitySet="DanismanTablosu" />
+            <End Role="DersTablosu" EntitySet="DersTablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DersSecimTablosu_DersTablosu" Association="Self.FK_DersSecimTablosu_DersTablosu">
+            <End Role="DersTablosu" EntitySet="DersTablosu" />
+            <End Role="DersSecimTablosu" EntitySet="DersSecimTablosu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DersSecimTablosu_OgrenciTablosu" Association="Self.FK_DersSecimTablosu_OgrenciTablosu">
+            <End Role="OgrenciTablosu" EntitySet="OgrenciTablosu" />
+            <End Role="DersSecimTablosu" EntitySet="DersSecimTablosu" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VTYSprojeModelStoreContainer" CdmEntityContainer="VTYSprojeEntities">
+          <EntitySetMapping Name="DanismanTablosu">
+            <EntityTypeMapping TypeName="VTYSprojeModel.DanismanTablosu">
+              <MappingFragment StoreEntitySet="DanismanTablosu">
+                <ScalarProperty Name="DanismanID" ColumnName="DanismanID" />
+                <ScalarProperty Name="İsimSoyisim" ColumnName="İsimSoyisim" />
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="Bolum" ColumnName="Bolum" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DersSecimTablosu">
+            <EntityTypeMapping TypeName="VTYSprojeModel.DersSecimTablosu">
+              <MappingFragment StoreEntitySet="DersSecimTablosu">
+                <ScalarProperty Name="DersSecimID" ColumnName="DersSecimID" />
+                <ScalarProperty Name="OgrenciID" ColumnName="OgrenciID" />
+                <ScalarProperty Name="DersID" ColumnName="DersID" />
+                <ScalarProperty Name="SecmeTarihi" ColumnName="SecmeTarihi" />
+                <ScalarProperty Name="OnaylandiMi" ColumnName="OnaylandiMi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DersTablosu">
+            <EntityTypeMapping TypeName="VTYSprojeModel.DersTablosu">
+              <MappingFragment StoreEntitySet="DersTablosu">
+                <ScalarProperty Name="DersID" ColumnName="DersID" />
+                <ScalarProperty Name="DersKodu" ColumnName="DersKodu" />
+                <ScalarProperty Name="DersAdi" ColumnName="DersAdi" />
+                <ScalarProperty Name="ZorunluMu" ColumnName="ZorunluMu" />
+                <ScalarProperty Name="DersKredi" ColumnName="DersKredi" />
+                <ScalarProperty Name="Bolum" ColumnName="Bolum" />
+                <ScalarProperty Name="DanismanID" ColumnName="DanismanID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OgrenciTablosu">
+            <EntityTypeMapping TypeName="VTYSprojeModel.OgrenciTablosu">
+              <MappingFragment StoreEntitySet="OgrenciTablosu">
+                <ScalarProperty Name="OgrenciID" ColumnName="OgrenciID" />
+                <ScalarProperty Name="İsim" ColumnName="İsim" />
+                <ScalarProperty Name="Soyisim" ColumnName="Soyisim" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DanismanID" ColumnName="DanismanID" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="VTYSprojeModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
